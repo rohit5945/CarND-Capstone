@@ -83,7 +83,7 @@ class WaypointUpdater(object):
         closest_idx = self.get_closest_waypoint_idx()
         farthest_idx = closest_idx + LOOKAHEAD_WPS
         base_waypoints = self.base_waypoints.waypoints[closest_idx:farthest_idx]
-        if self.stopline_wp_idx == -1 or (self.stopline_wp_idx >= furthest_idx):
+        if self.stopline_wp_idx == -1 or (self.stopline_wp_idx >= farthest_idx):
             lane.waypoints = base_waypoints
         else:
             lane.waypoints = self.decelerate_waypoints(base_waypoints, closest_idx)
@@ -97,7 +97,7 @@ class WaypointUpdater(object):
             p = Waypoint()
             p.pose = wp.pose
 
-            stop_idx = max(self.stopline_wp_idx - clostest_idx - 2, 0)
+            stop_idx = max(self.stopline_wp_idx - closest_idx - 2, 0)
             dist = self.distance(waypoints, i, stop_idx)
             vel = math.sqrt(2 * MAX_DECEL * dist)
             if vel < 1.0:
